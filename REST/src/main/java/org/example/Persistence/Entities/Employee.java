@@ -51,8 +51,9 @@ public class Employee {
     private Job job;
 
     @NotNull
-    @Column(name = "salary", nullable = false, precision = 10, scale = 2)
-    private BigDecimal salary;
+    @OneToOne
+    @JoinColumn(name = "salary",nullable = false)
+    private Salary salary;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
@@ -72,8 +73,9 @@ public class Employee {
     @Column(name = "vacation_days", nullable = false)
     private Integer vacationDays;
 
-    @Column(name = "salary_id")
-    private Integer salaryId;
+    @NotNull
+    @Column(name = "removed", nullable = false)
+    private Boolean removed = false;
 
     @OneToMany(mappedBy = "employee")
     private Set<Attendance> attendances = new LinkedHashSet<>();
@@ -90,4 +92,42 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private Set<Vacation> vacations = new LinkedHashSet<>();
 
+    @Transient
+    private String managerName;
+    @Transient
+    private String departmentName;
+    @Transient
+    private String jobTitle;
+    @Transient
+    private BigDecimal salaryAmount;
+    @Transient
+    String city;
+    @Transient
+    String country;
+    @Transient
+    String street;
+
+    @PostLoad
+    private void postLoad() {
+        if (manager != null) {
+            managerName = manager.getFirstName() + " " + manager.getLastName();
+        }
+        if (manager  == null){
+            managerName = "No Manager";
+        }
+        if (department != null) {
+            departmentName = department.getDepartmentName();
+        }
+        if (job != null) {
+            jobTitle = job.getJobTitle();
+        }
+        if (salary != null) {
+            salaryAmount = salary.getSalaryAmount();
+        }
+        if (address != null) {
+            city = address.getCity();
+            country = address.getCountry();
+            street = address.getStreetAddress();
+        }
+    }
 }

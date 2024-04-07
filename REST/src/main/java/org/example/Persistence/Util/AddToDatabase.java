@@ -3,24 +3,21 @@ package org.example.Persistence.Util;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import org.example.Persistence.Entities.Address;
-import org.example.Persistence.Entities.Department;
-import org.example.Persistence.Entities.Employee;
-import org.example.Persistence.Entities.Job;
+import org.example.Persistence.Entities.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class AddToDatabase {
     public static void main(String[] args) {
-        // add data to the database
+//        // add data to the database
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hr");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         // create a new employee
         Employee employee = new Employee();
-        employee.setFirstName("New");
-        employee.setLastName("Employee");
+        employee.setFirstName("New2");
+        employee.setLastName("Employee2");
         employee.setEmail("new.employee@example.com");
         employee.setPhoneNumber("1234567890");
         employee.setHireDate(LocalDate.now());
@@ -30,7 +27,12 @@ public class AddToDatabase {
         job.setMaxSalary(new BigDecimal("2000.00"));
         em.persist(job);
         employee.setJob(job); // replace with actual Job
-        employee.setSalary(new BigDecimal("1000.00"));
+        Salary salary = new Salary();
+        salary.setBonus(BigDecimal.valueOf(0));
+        salary.setSalaryAmount(new BigDecimal("1000.00"));
+        salary.setPenalties(BigDecimal.valueOf(0));
+        em.persist(salary);
+        employee.setSalary(salary);
         Department department = new Department();
         department.setDepartmentName("New Department");
         em.persist(department);
@@ -39,9 +41,7 @@ public class AddToDatabase {
         Address address = new Address();
         address.setStreetAddress("123 Main St");
         address.setCity("Springfield");
-        address.setState("IL");
         address.setCountry("USA");
-        address.setPostalCode("62701");
         em.persist(address);
         employee.setAddress(address); // replace with actual Address
         employee.setVacationDays(20);

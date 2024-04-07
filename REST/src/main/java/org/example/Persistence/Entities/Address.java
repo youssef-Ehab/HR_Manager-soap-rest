@@ -22,17 +22,17 @@ public class Address {
     @Size(max = 255)
     @Column(name = "city")
     private String city;
-
-    @Size(max = 255)
-    @Column(name = "state")
-    private String state;
+//
+//    @Size(max = 255)
+//    @Column(name = "state")
+//    private String state;
 
     @Size(max = 255)
     @Column(name = "country")
     private String country;
-
-    @Size(max = 10)
-    @Column(name = "postal_code", length = 10)
-    private String postalCode;
+//
+//    @Size(max = 10)
+//    @Column(name = "postal_code", length = 10)
+//    private String postalCode;
 
 }

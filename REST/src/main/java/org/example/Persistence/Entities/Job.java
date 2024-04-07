@@ -27,4 +27,14 @@ public class Job {
     @Column(name = "max_salary", precision = 10, scale = 2)
     private BigDecimal maxSalary;
 
+    @JoinColumn(name = "department_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    Department department;
+
+    @Transient
+    String departmentName;
+    @PostLoad
+    private void postLoad() {
+        departmentName = department.getDepartmentName();
+    }
 }
