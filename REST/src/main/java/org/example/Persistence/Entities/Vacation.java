@@ -31,4 +31,15 @@ public class Vacation {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+    @Transient
+    private String employeeName;
+    @Transient
+    private String employeeEmail;
+    @PostLoad
+    private void postLoad() {
+        if (employee != null) {
+            employeeName = employee.getFirstName()+" "+employee.getLastName();
+            employeeEmail = employee.getEmail();
+        }
+    }
 }

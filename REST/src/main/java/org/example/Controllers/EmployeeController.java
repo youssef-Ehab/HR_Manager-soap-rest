@@ -82,4 +82,12 @@ public class EmployeeController {
     {
         return employeeServices.logout(email);
     }
+
+    @POST
+    @Path("/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public EmployeeDto updateEmployee(EmployeeDto employeeDto)
+    {
+        return employeeServices.updateEmployee(employeeDto);
+    }
 }

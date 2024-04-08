@@ -12,9 +12,15 @@ public class EmployeeDAO extends dao<Employee> {
         super.setType(Employee.class);
     }
     public Employee getEmployeeByEmail(String email) {
-        return entityManager.createQuery("SELECT e FROM Employee e WHERE e.email = :email", Employee.class)
+        List<Employee> employees = entityManager.createQuery("SELECT e FROM Employee e WHERE e.email = :email", Employee.class)
                 .setParameter("email", email)
-                .getSingleResult();
+                .getResultList();
+
+        if (employees.isEmpty()) {
+            return null;
+        } else {
+            return employees.get(0);
+        }
     }
     public Employee getEmployeeByPhoneNumber(String phoneNumber) {
         return entityManager.createQuery("SELECT e FROM Employee e WHERE e.phoneNumber = :phoneNumber", Employee.class)

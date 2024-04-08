@@ -152,4 +152,53 @@ return Database.doInTransaction(entityManager -> {
             return true;
         });
     }
+
+    public EmployeeDto updateEmployee(EmployeeDto employeeDto) {
+        return Database.doInTransaction(entityManager -> {
+            //update only the fields in the dto
+            EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
+            Employee employee = employeeDAO.getEmployeeByEmail(employeeDto.getEmail());
+            if(employeeDto.getFirstName()!=null){
+                employee.setFirstName(employeeDto.getFirstName());
+            }
+            if(employeeDto.getLastName()!=null){
+                employee.setLastName(employeeDto.getLastName());
+            }
+            if(employeeDto.getEmail()!=null){
+                employee.setEmail(employeeDto.getEmail());
+            }
+            if(employeeDto.getPhoneNumber()!=null){
+                employee.setPhoneNumber(employeeDto.getPhoneNumber());
+            }
+            if(employeeDto.getHireDate()!=null){
+                employee.setHireDate(employeeDto.getHireDate());
+            }
+            if(employeeDto.getVacationDays()!=null){
+                employee.setVacationDays(employeeDto.getVacationDays());
+            }
+            if(employeeDto.getStreet()!=null){
+                employee.getAddress().setStreetAddress(employeeDto.getStreet());
+            }
+            if(employeeDto.getCity()!=null){
+                employee.getAddress().setCity(employeeDto.getCity());
+            }
+            if(employeeDto.getCountry()!=null){
+                employee.getAddress().setCountry(employeeDto.getCountry());
+            }
+            if(employeeDto.getSalaryAmount()!=null){
+                employee.getSalary().setSalaryAmount(employeeDto.getSalaryAmount());
+            }
+            if(employeeDto.getJobTitle()!=null){
+                employee.setJob(new JobDAO(entityManager).getJobByTitle(employeeDto.getJobTitle()));
+            }
+            if(employeeDto.getDepartmentName()!=null){
+                employee.setDepartment(new DepartmentDAO(entityManager).getDepartmentByName(employeeDto.getDepartmentName()));
+            }
+            if(employeeDto.getManagerName()!=null){
+                employee.setManager(employeeDAO.getEmployeeByName(employeeDto.getManagerName()));
+            }
+            employeeDAO.update(employee);
+            return EmployeeMapper.instance.toEmployeeDto(employee);
+        });
+    }
 }

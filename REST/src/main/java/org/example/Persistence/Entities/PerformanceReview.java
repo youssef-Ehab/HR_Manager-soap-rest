@@ -34,4 +34,20 @@ public class PerformanceReview {
     @JoinColumn(name = "reviewer_id")
     private Employee reviewer;
 
+    @Transient
+    String employeeName;
+    @Transient
+    String employeeEmail;
+    @Transient
+    String reviewerName;
+    @Transient
+    String reviewerEmail;
+
+    @PostLoad
+    private void postLoad() {
+        employeeName = employee.getFirstName() + " " + employee.getLastName();
+        employeeEmail = employee.getEmail();
+        reviewerName = reviewer.getFirstName() + " " + reviewer.getLastName();
+        reviewerEmail = reviewer.getEmail();
+    }
 }
