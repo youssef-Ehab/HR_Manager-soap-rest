@@ -1,4 +1,4 @@
-package org.example.Controllers;
+package org.example.Controllers.REST;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
