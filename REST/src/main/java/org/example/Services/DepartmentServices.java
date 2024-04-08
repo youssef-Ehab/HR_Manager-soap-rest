@@ -67,4 +67,46 @@ public class DepartmentServices {
             return true;
         });
     }
+
+    public boolean setManager(String depName, String email) {
+        return Database.doInTransaction(entityManager -> {
+            DepartmentDAO departmentDAO = new DepartmentDAO(entityManager);
+            Department department = departmentDAO.getDepartmentByName(depName);
+            EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
+            Employee manager = employeeDAO.getEmployeeByEmail(email);
+            if (department == null || manager == null) {
+                return false;
+            }
+            department.setManager(manager);
+            entityManager.persist(department);
+            return true;
+        });
+    }
+
+
+    public List<DepartmentDto> getDepartmentByManager(String email) {
+        return Database.doInTransaction(entityManager -> {
+            EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
+            Employee manager = employeeDAO.getEmployeeByEmail(email);
+            if (manager == null) {
+                return null;
+            }
+            DepartmentDAO departmentDAO = new DepartmentDAO(entityManager);
+            List<Department> departments = departmentDAO.getDepartmentByManager(manager);
+            return DepartmentMapper.instance.toDepartmentDtoList(departments);
+        });
+    }
+
+    public boolean removeManager(String depName) {
+        return Database.doInTransaction(entityManager -> {
+            DepartmentDAO departmentDAO = new DepartmentDAO(entityManager);
+            Department department = departmentDAO.getDepartmentByName(depName);
+            if (department == null ) {
+                return false;
+            }
+            department.setManager(null);
+            entityManager.persist(department);
+            return true;
+        });
+    }
 }

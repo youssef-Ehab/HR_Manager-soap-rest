@@ -4,6 +4,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import org.example.Persistence.DAOS.Generic.dao;
 import org.example.Persistence.Entities.Department;
+import org.example.Persistence.Entities.Employee;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DepartmentDAO extends dao<Department> {
     public DepartmentDAO(EntityManager entityManager) {
@@ -22,5 +26,14 @@ public class DepartmentDAO extends dao<Department> {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    public List<Department> getDepartmentByManager(Employee manager) {
+        if (manager == null) {
+            return new ArrayList<>();
+        }
+        return entityManager.createQuery("SELECT d FROM Department d WHERE d.manager = :manager", Department.class)
+                .setParameter("manager", manager)
+                .getResultList();
     }
 }

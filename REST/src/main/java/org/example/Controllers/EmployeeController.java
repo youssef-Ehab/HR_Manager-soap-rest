@@ -60,13 +60,13 @@ public class EmployeeController {
 
     @GET
     @Path("/remove/{email}")
-    public void removeEmployee(@PathParam("email") String email)
+    public boolean removeEmployee(@PathParam("email") String email)
     {
-        employeeServices.removeEmployee(email);
+        return employeeServices.removeEmployee(email);
     }
     @GET
     @Path("/allRemoved")
-    public List<EmployeeDto> getAllFiredEmployees()
+    public List<EmployeeDto> getAllRemovedEmployees()
     {
         return employeeServices.getAllRemoved();
     }
@@ -90,4 +90,6 @@ public class EmployeeController {
     {
         return employeeServices.updateEmployee(employeeDto);
     }
+
+
 }

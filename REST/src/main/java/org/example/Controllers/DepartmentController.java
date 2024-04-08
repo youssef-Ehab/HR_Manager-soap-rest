@@ -33,4 +33,19 @@ public class DepartmentController {
     public boolean createDepartment(List<String> data) {
         return departmentServices.createDepartment(data);
     }
+    @GET
+    @Path("/setManager/{depName}/{email}")
+    public boolean setManager(@PathParam("depName") String depName, @PathParam("email") String email) {
+        return departmentServices.setManager(depName, email);
+    }
+    @GET
+    @Path("/manager/{email}")
+    public List<DepartmentDto> getDepartmentByManager(@PathParam("email") String email) {
+        return departmentServices.getDepartmentByManager(email);
+    }
+    @GET
+    @Path("/removeManager/{depName}")
+    public boolean removeManager(@PathParam("depName") String depName) {
+        return departmentServices.removeManager(depName);
+    }
 }

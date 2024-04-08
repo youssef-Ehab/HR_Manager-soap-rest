@@ -7,6 +7,7 @@ import org.example.Persistence.Database;
 import org.example.Persistence.Entities.Address;
 import org.example.Persistence.Entities.Attendance;
 import org.example.Persistence.Entities.Employee;
+import org.example.Presentation.DTOs.DepartmentDto;
 import org.example.Presentation.DTOs.EmployeeDto;
 import org.example.Presentation.DTOs.PayDayDTO;
 import org.example.Presentation.Mapper.EmployeeMapper;
@@ -97,12 +98,18 @@ public class EmployeeServices {
             return null;
         });
     }
-    public void removeEmployee(String email){
-        Database.doInTransaction(entityManager -> {
+    public boolean removeEmployee(String email){
+      return  Database.doInTransaction(entityManager -> {
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee employee = employeeDAO.getEmployeeByEmail(email);
+            List<DepartmentDto> departments = new DepartmentServices().getDepartmentByManager(email);
+            if (departments != null) {
+                for (DepartmentDto department : departments) {
+                    new DepartmentServices().removeManager(department.getDepartmentName());
+                }
+            }
             employee.setRemoved(true);
-            return null;
+            return true;
         });
     }
 
