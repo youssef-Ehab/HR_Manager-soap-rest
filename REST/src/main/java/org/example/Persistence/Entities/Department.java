@@ -20,7 +20,7 @@ public class Department {
     private Integer id;
 
     @Size(max = 255)
-    @Column(name = "department_name")
+    @Column(name = "department_name",unique = true)
     private String departmentName;
 
     @ManyToOne(fetch = FetchType.LAZY)

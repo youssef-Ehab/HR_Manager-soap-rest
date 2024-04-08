@@ -38,7 +38,15 @@ public class DepartmentServices {
         return employeeNames;
     }
 
-    public boolean createDepartment(String depName, String managerEmail) {
+    public boolean createDepartment(List<String> data) {
+        if (data.isEmpty() || data.size() > 2 || data.get(0) .equals("")){
+            return false;
+        }
+        if (data.size() < 2) {
+            data.add("no Manager");
+        }
+        String depName = data.get(0);
+        String managerEmail = data.get(1);
         return Database.doInTransaction(entityManager -> {
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee manager = new Employee();
@@ -47,6 +55,10 @@ public class DepartmentServices {
             }
             if(managerEmail != null){
                 manager = employeeDAO.getEmployeeByEmail(managerEmail);
+            }
+            DepartmentDAO departmentDAO = new DepartmentDAO(entityManager);
+            if (departmentDAO.getDepartmentByName(depName) != null) {
+                return false;
             }
             Department department = new Department();
             department.setDepartmentName(depName);
