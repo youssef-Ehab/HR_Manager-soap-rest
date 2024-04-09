@@ -171,7 +171,7 @@ return Database.doInTransaction(entityManager -> {
 
     public EmployeeDto updateEmployee(EmployeeDto employeeDto) {
         return Database.doInTransaction(entityManager -> {
-            //update only the fields in the dto
+
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee employee = employeeDAO.getEmployeeByEmail(employeeDto.getEmail());
             if(employeeDto.getFirstName()!=null){
@@ -205,13 +205,25 @@ return Database.doInTransaction(entityManager -> {
                 employee.getSalary().setSalaryAmount(employeeDto.getSalaryAmount());
             }
             if(employeeDto.getJobTitle()!=null){
-                employee.setJob(new JobDAO(entityManager).getJobByTitle(employeeDto.getJobTitle()));
+                Job job = new JobDAO(entityManager).getJobByTitle(employeeDto.getJobTitle());
+                if (job == null){
+                    throw new IllegalArgumentException("Job does not exist");
+                }
+                employee.setJob(job);
             }
             if(employeeDto.getDepartmentName()!=null){
-                employee.setDepartment(new DepartmentDAO(entityManager).getDepartmentByName(employeeDto.getDepartmentName()));
+                Department department = new DepartmentDAO(entityManager).getDepartmentByName(employeeDto.getDepartmentName());
+                if (department == null){
+                    throw new IllegalArgumentException("Department does not exist");
+                }
+                employee.setDepartment(department);
             }
-            if(employeeDto.getManagerName()!=null){
-                employee.setManager(employeeDAO.getEmployeeByName(employeeDto.getManagerName()));
+            if(employeeDto.getManagerEmail()!=null){
+                Employee manager = employeeDAO.getEmployeeByEmail(employeeDto.getManagerEmail());
+                if (manager == null){
+                    throw new IllegalArgumentException("Manager does not exist");
+                }
+                employee.setManager(manager);
             }
             employeeDAO.update(employee);
             return EmployeeMapper.instance.toEmployeeDto(employee);

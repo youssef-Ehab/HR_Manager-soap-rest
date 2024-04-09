@@ -106,11 +106,13 @@ public class Employee {
     String country;
     @Transient
     String street;
-
+    @Transient
+    String managerEmail;
     @PostLoad
     private void postLoad() {
         if (manager != null) {
             managerName = manager.getFirstName() + " " + manager.getLastName();
+            managerEmail = manager.getEmail();
         }
         if (manager  == null){
             managerName = "No Manager";

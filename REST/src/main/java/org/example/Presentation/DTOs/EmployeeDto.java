@@ -33,7 +33,7 @@ public class EmployeeDto implements Serializable {
     Integer vacationDays;
     Boolean removed = false;
 
-
+    String managerEmail;
     String managerName;
     @NotNull
     String departmentName;
