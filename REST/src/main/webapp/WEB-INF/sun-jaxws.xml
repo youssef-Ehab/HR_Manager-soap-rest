@@ -1,0 +1,31 @@
+<endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
+
+    <endpoint
+        name="DepartmentWebService"
+        implementation="org.example.Controllers.SOAP.Implementation.DepartmentWebServiceImpl"
+        url-pattern="/department"/>
+
+    <endpoint
+            name="EmployeeWebService"
+            implementation="org.example.Controllers.SOAP.Implementation.EmployeeWebServiceImpl"
+            url-pattern="/employee"/>
+    <endpoint
+            name="VacationWebService"
+            implementation="org.example.Controllers.SOAP.Implementation.VacationWebServiceImpl"
+            url-pattern="/vacation"/>
+
+    <endpoint
+            name="JobWebService"
+            implementation="org.example.Controllers.SOAP.Implementation.JobWebServiceImpl"
+            url-pattern="/job"/>
+
+    <endpoint
+            name="PerformanceReviewWebService"
+            implementation="org.example.Controllers.SOAP.Implementation.PerformanceReviewWebServiceImpl"
+            url-pattern="/performanceReview"/>
+
+    <endpoint
+            name="SalaryWebService"
+            implementation="org.example.Controllers.SOAP.Implementation.SalaryWebServiceImpl"
+            url-pattern="/salary"/>
+</endpoints>

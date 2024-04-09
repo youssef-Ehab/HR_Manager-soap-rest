@@ -15,4 +15,85 @@
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/webapi/*</url-pattern>
     </servlet-mapping>
+
+    <!--                        SOAP          -->
+
+    <listener>
+        <listener-class>
+            com.sun.xml.ws.transport.http.servlet.WSServletContextListener
+        </listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>DepartmentWebService</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DepartmentWebService</servlet-name>
+        <url-pattern>/department</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EmployeeWebService</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EmployeeWebService</servlet-name>
+        <url-pattern>/employee</url-pattern>
+    </servlet-mapping>
+    <servlet>
+
+        <servlet-name>VacationWebService</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VacationWebService</servlet-name>
+        <url-pattern>/vacation</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>JobWebService</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>JobWebService</servlet-name>
+        <url-pattern>/job</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>PerformanceReviewWebService</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PerformanceReviewWebService</servlet-name>
+        <url-pattern>/performanceReview</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SalaryWebService</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SalaryWebService</servlet-name>
+        <url-pattern>/salary</url-pattern>
+    </servlet-mapping>
+
 </web-app>
