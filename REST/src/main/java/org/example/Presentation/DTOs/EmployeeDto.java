@@ -31,7 +31,7 @@ public class EmployeeDto implements Serializable {
     LocalDate hireDate;
     @NotNull
     Integer vacationDays;
-    Boolean removed;
+    Boolean removed = false;
 
 
     String managerName;

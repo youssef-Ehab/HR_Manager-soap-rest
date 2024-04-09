@@ -16,7 +16,7 @@ public class SalaryServices {
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee employee = employeeDAO.getEmployeeByEmail(email);
             if (employee == null) {
-                return null;
+                throw   new IllegalArgumentException("Employee not found");
             }
             Salary salary = employee.getSalary();
             salary.setSalaryAmount(amount);
@@ -33,7 +33,7 @@ public class SalaryServices {
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee employee = employeeDAO.getEmployeeByEmail(email);
             if (employee == null) {
-                return "error";
+                throw  new IllegalArgumentException("Employee not found");
             }
             Salary salary = employee.getSalary();
             salary.setBonus(amount);
@@ -46,7 +46,7 @@ public class SalaryServices {
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee employee = employeeDAO.getEmployeeByEmail(email);
             if (employee == null) {
-                return "error";
+                throw new IllegalArgumentException("Employee not found");
             }
             Salary salary = employee.getSalary();
             salary.setPenalties(amount);

@@ -60,11 +60,13 @@ public class PerformanceReviewServices {
          EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
          Employee employee = employeeDAO.getEmployeeByEmail(email);
          Employee reviewer = employeeDAO.getEmployeeByEmail(reviewerEmail);
-            if(employee == null || reviewer == null){
-                return false;
+            if(reviewer == null){
+                throw new IllegalArgumentException("Reviewer not found");
             }
+            if (employee == null)
+                throw new IllegalArgumentException("Employee not found");
             if (employee.getManager() != reviewer)
-                return false;
+                throw new IllegalArgumentException("Reviewer is not the manager of the employee");
 
             PerformanceReviewDAO performanceReviewDAO = new PerformanceReviewDAO(entityManager);
          PerformanceReview performanceReview = PerformanceReviewMapper.INSTANCE.toPerformanceReview(performanceReviewDto);

@@ -4,14 +4,11 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import org.example.Persistence.DAOS.Implementation.*;
 import org.example.Persistence.Database;
-import org.example.Persistence.Entities.Address;
-import org.example.Persistence.Entities.Attendance;
-import org.example.Persistence.Entities.Employee;
+import org.example.Persistence.Entities.*;
 import org.example.Presentation.DTOs.DepartmentDto;
 import org.example.Presentation.DTOs.EmployeeDto;
 import org.example.Presentation.DTOs.PayDayDTO;
 import org.example.Presentation.Mapper.EmployeeMapper;
-import org.example.Persistence.Entities.Salary;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -65,15 +62,27 @@ public class EmployeeServices {
         });
     }
 
-    public void addEmployee(EmployeeDto employeeDto) {
-        Database.doInTransaction(entityManager -> {
+    public EmployeeDto addEmployee(EmployeeDto employeeDto) {
+        return Database.doInTransaction(entityManager -> {
             Employee employee = EmployeeMapper.instance.toEmployee(employeeDto);
             //set department
             DepartmentDAO departmentDAO = new DepartmentDAO(entityManager);
+            Department department = departmentDAO.getDepartmentByName(employeeDto.getDepartmentName());
+            if (department == null){
+
+                throw new IllegalArgumentException("Department does not exist");
+
+            }
             employee.setDepartment(departmentDAO.getDepartmentByName(employeeDto.getDepartmentName()));
             //set job
             JobDAO jobDAO = new JobDAO(entityManager);
-            employee.setJob(jobDAO.getJobByTitle(employeeDto.getJobTitle()));
+            Job job = jobDAO.getJobByTitle(employeeDto.getJobTitle());
+            if (job == null){
+
+                throw new IllegalArgumentException("Job does not exist");
+
+            }
+            employee.setJob(job);
             //set salary
             Salary salary = new Salary();
             salary.setSalaryAmount(employeeDto.getSalaryAmount());
@@ -95,7 +104,7 @@ public class EmployeeServices {
                 employee.setManager(employeeDAO.getEmployeeByName(employeeDto.getManagerName()));
             }
             entityManager.persist(employee);
-            return null;
+            return EmployeeMapper.instance.toEmployeeDto(employee);
         });
     }
     public boolean removeEmployee(String email){
@@ -127,11 +136,11 @@ return Database.doInTransaction(entityManager -> {
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee employee = employeeDAO.getEmployeeByEmail(email);
             if (employee == null) {
-                return false;
+                throw new IllegalArgumentException("Employee not found");
             }
             Optional<Attendance> check = new AttendanceDAO(entityManager).getLastAttendance(employee);
             if (check.isPresent() && check.get().getDate().equals(LocalDate.now())) {
-                return false;
+                throw new IllegalArgumentException("Already checked in");
             }
         Attendance attendance = new Attendance();
         attendance.setEmployee(employee);
@@ -147,11 +156,11 @@ return Database.doInTransaction(entityManager -> {
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee employee = employeeDAO.getEmployeeByEmail(email);
             if (employee == null) {
-                return false;
+                throw new IllegalArgumentException("Employee not found");
             }
             Optional<Attendance> check = new AttendanceDAO(entityManager).getLastAttendance(employee);
             if (check.isEmpty() || (check.get().getDate().equals(LocalDate.now()) && check.get().getCheckOutTime() != null)){
-                return false;
+                throw new IllegalArgumentException("Already checked out");
             }
             AttendanceDAO attendanceDao = new AttendanceDAO(entityManager);
             Optional<Attendance> attendance = attendanceDao.getLastAttendance(employee);

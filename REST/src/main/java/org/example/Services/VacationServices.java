@@ -38,7 +38,7 @@ public class VacationServices {
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee employee = employeeDAO.getEmployeeByEmail(email);
             if (employee == null) {
-                return false;
+                throw new IllegalArgumentException("Employee not found");
             }
             VacationDAO vacationDAO = new VacationDAO(entityManager);
             Vacation vacation = vacationDAO.getLastPendingVacation(email);
@@ -48,7 +48,8 @@ public class VacationServices {
             long daysBetween = startDate.until(endDate).getDays();
             int vacationDays = employee.getVacationDays();
             if (daysBetween > vacationDays) {
-                return false;
+                vacation.setStatus("Rejected");
+                throw new IllegalArgumentException("Not enough vacation days");
             }
             employee.setVacationDays(vacationDays - (int) daysBetween);
             entityManager.persist(employee);
@@ -62,6 +63,11 @@ public class VacationServices {
     public boolean rejectVacation(String email) {
         return Database.doInTransaction(entityManager -> {
             VacationDAO vacationDAO = new VacationDAO(entityManager);
+            EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
+            Employee employee = employeeDAO.getEmployeeByEmail(email);
+            if (employee == null) {
+                throw new IllegalArgumentException("Employee not found");
+            }
             Vacation vacation = vacationDAO.getLastPendingVacation(email);
             vacation.setStatus("Rejected");
             entityManager.persist(vacation);

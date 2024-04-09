@@ -24,6 +24,9 @@ public class JobServices {
         return Database.doInTransaction(entityManager -> {
             JobDAO jobDAO = new JobDAO(entityManager);
             Job job = jobDAO.getJobByTitle(title);
+            if (job == null) {
+                throw  new IllegalArgumentException("Job not found");
+            }
             return JobMapper.instance.toJobDto(job);
         });
     }
@@ -35,16 +38,20 @@ public class JobServices {
             BigDecimal maxSalary = jobDto.getMaxSalary();
             String department = jobDto.getDepartmentName();
             JobDAO jobDAO = new JobDAO(entityManager);
-            if ( title == null || minSalary == null || maxSalary == null || department == null) {
-                return false;
-            }
+            if (title == null)
+                throw new IllegalArgumentException("Title is null");
+            if (minSalary == null)
+                throw new IllegalArgumentException("MinSalary is null");
+            if (maxSalary == null)
+                throw new IllegalArgumentException("MaxSalary is null");
+
             if (jobDAO.getJobByTitle(title) != null) {
-                return false;
+                throw new IllegalArgumentException("job already exists");
             }
             DepartmentDAO departmentDAO = new DepartmentDAO(entityManager);
             Department dep = departmentDAO.getDepartmentByName(department);
             if (dep == null) {
-                return false;
+                throw new IllegalArgumentException("department is null");
             }
             Job job = new Job();
             job.setJobTitle(title);

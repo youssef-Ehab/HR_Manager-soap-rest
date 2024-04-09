@@ -51,14 +51,14 @@ public class DepartmentServices {
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee manager = new Employee();
             if ( depName == null) {
-                return false;
+                throw new IllegalArgumentException("Department name is null");
             }
             if(managerEmail != null){
                 manager = employeeDAO.getEmployeeByEmail(managerEmail);
             }
             DepartmentDAO departmentDAO = new DepartmentDAO(entityManager);
             if (departmentDAO.getDepartmentByName(depName) != null) {
-                return false;
+                throw new IllegalArgumentException("Department already exists");
             }
             Department department = new Department();
             department.setDepartmentName(depName);
@@ -74,8 +74,11 @@ public class DepartmentServices {
             Department department = departmentDAO.getDepartmentByName(depName);
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee manager = employeeDAO.getEmployeeByEmail(email);
-            if (department == null || manager == null) {
-                return false;
+            if (department == null ) {
+                throw new IllegalArgumentException("Department not found");
+            }
+            if (manager == null) {
+                throw new IllegalArgumentException("Manager not found");
             }
             department.setManager(manager);
             entityManager.persist(department);
@@ -89,7 +92,7 @@ public class DepartmentServices {
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee manager = employeeDAO.getEmployeeByEmail(email);
             if (manager == null) {
-                return null;
+                throw new IllegalArgumentException("Manager not found");
             }
             DepartmentDAO departmentDAO = new DepartmentDAO(entityManager);
             List<Department> departments = departmentDAO.getDepartmentByManager(manager);
@@ -102,7 +105,7 @@ public class DepartmentServices {
             DepartmentDAO departmentDAO = new DepartmentDAO(entityManager);
             Department department = departmentDAO.getDepartmentByName(depName);
             if (department == null ) {
-                return false;
+                throw new IllegalArgumentException("Department not found");
             }
             department.setManager(null);
             entityManager.persist(department);

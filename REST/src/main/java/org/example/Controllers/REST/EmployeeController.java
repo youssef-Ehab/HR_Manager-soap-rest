@@ -53,9 +53,9 @@ public class EmployeeController {
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addEmployee(EmployeeDto employeeDto)
+    public EmployeeDto addEmployee(EmployeeDto employeeDto)
     {
-        employeeServices.addEmployee(employeeDto);
+        return employeeServices.addEmployee(employeeDto);
     }
 
     @GET
