@@ -1,6 +1,6 @@
 # HR Management System
 
-This project is a Human Resources Management System implemented in Java using Maven for dependency management. 
+This project is a Human Resources Management System implemented in Java using Maven for dependency management , RESTful APIs and SOAP APIs. 
 
 ## About the Project
 This project acts as a system for HR management that implements various implementations that helps them for their daily work.
@@ -20,5 +20,9 @@ To set up the project, you need to have Java and Maven installed on your system.
 git clone https://github.com/youssef-Ehab/HR_Manager_soap-rest.git<br>
 mvn clean install<br>
 
+you can find the SOAP and RESTful endpoints in the Controller Package <br>
+
 ## Documentation
-https://documenter.getpostman.com/view/33816031/2sA3BgAaoC
+https://documenter.getpostman.com/view/33816031/2sA3BgAaoC<br>
+
+To access all the wsdl please visit http://localhost:9090/hr/employee . <br>
