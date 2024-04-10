@@ -3,7 +3,7 @@
 This project is a Human Resources Management System implemented in Java using Maven for dependency management. 
 
 ## About the Project
-This project acts as a system for HR management that implements various implementations that helps them for their daily work.
+This project acts as a system for HR management that implements various implementations that helps them for their daily work.#
 
 ## Features
 The system provides the following features:  
