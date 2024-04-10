@@ -23,6 +23,7 @@ mvn clean install<br>
 you can find the SOAP and RESTful endpoints in the Controller Package <br>
 
 ## Documentation
-https://documenter.getpostman.com/view/33816031/2sA3BgAaoC<br>
+RESTful : https://documenter.getpostman.com/view/33816031/2sA3BgAaoC<br>
+SOAP : https://documenter.getpostman.com/view/33816031/2sA3BgBw2e<br>
 
-To access all the wsdl please visit http://localhost:9090/hr/employee . <br>
+
