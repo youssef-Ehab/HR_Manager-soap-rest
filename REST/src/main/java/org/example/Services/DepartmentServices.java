@@ -39,8 +39,8 @@ public class DepartmentServices {
     }
 
     public boolean createDepartment(List<String> data) {
-        if (data.isEmpty() || data.size() > 2 || data.get(0) .equals("")){
-            return false;
+        if (data.isEmpty() || data.size() > 2 || data.get(0).equals("")){
+            throw new IllegalArgumentException("Invalid data");
         }
         if (data.size() < 2) {
             data.add("no Manager");

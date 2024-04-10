@@ -13,7 +13,7 @@ public class VacationDAO extends dao {
     }
 
     public List<Vacation> getVacationByEmail(String email) {
-        return entityManager.createQuery("SELECT v FROM Vacation v WHERE v.employee.email = :email and v.status = :Approved", Vacation.class)
+        return entityManager.createQuery("SELECT v FROM Vacation v WHERE v.employee.email = :email and v.status = 'Approved'", Vacation.class)
                 .setParameter("email", email)
                 .getResultList();
     }
@@ -24,7 +24,7 @@ public class VacationDAO extends dao {
                 .getResultList();
     }
     public Vacation getLastPendingVacation(String email) {
-        return entityManager.createQuery("SELECT v FROM Vacation v WHERE v.employee.email = :email and v.status = :Pending", Vacation.class)
+        return entityManager.createQuery("SELECT v FROM Vacation v WHERE v.employee.email = :email and v.status = 'Pending'", Vacation.class)
                 .setParameter("email", email)
                 .getSingleResult();
     }

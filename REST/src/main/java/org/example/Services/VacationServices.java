@@ -41,7 +41,14 @@ public class VacationServices {
                 throw new IllegalArgumentException("Employee not found");
             }
             VacationDAO vacationDAO = new VacationDAO(entityManager);
-            Vacation vacation = vacationDAO.getLastPendingVacation(email);
+            Vacation vacation = null;
+            try{
+                vacation = vacationDAO.getLastPendingVacation(email);
+
+            }
+            catch (Exception e){
+                throw new IllegalArgumentException("No pending vacation found");
+            }
             //get the number of days between the start and end date of the vacation
             LocalDate startDate = vacation.getStartDate();
             LocalDate endDate = vacation.getEndDate();
@@ -68,7 +75,13 @@ public class VacationServices {
             if (employee == null) {
                 throw new IllegalArgumentException("Employee not found");
             }
-            Vacation vacation = vacationDAO.getLastPendingVacation(email);
+            Vacation vacation =null;
+            try{
+                vacation = vacationDAO.getLastPendingVacation(email);
+            }
+            catch (Exception e){
+                throw new IllegalArgumentException("No pending vacation found");
+            }
             vacation.setStatus("Rejected");
             entityManager.persist(vacation);
             return true;
