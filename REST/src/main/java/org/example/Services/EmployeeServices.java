@@ -57,7 +57,13 @@ public class EmployeeServices {
     public EmployeeDto getEmployeeByPhoneNumber(String phoneNumber){
         return Database.doInTransaction(entityManager -> {
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
-            Employee employee = employeeDAO.getEmployeeByPhoneNumber(phoneNumber);
+            Employee employee = null;
+            try{
+                 employee = employeeDAO.getEmployeeByPhoneNumber(phoneNumber);
+            }
+            catch (Exception e){
+                throw new IllegalArgumentException("Employee not found");
+            }
             return EmployeeMapper.instance.toEmployeeDto(employee);
         });
     }
