@@ -80,6 +80,8 @@ public class DepartmentServices {
             if (manager == null) {
                 throw new IllegalArgumentException("Manager not found");
             }
+            manager.setDepartment(department);
+            entityManager.persist(manager);
             department.setManager(manager);
             entityManager.persist(department);
             return true;

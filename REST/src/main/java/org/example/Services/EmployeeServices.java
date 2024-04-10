@@ -174,6 +174,9 @@ return Database.doInTransaction(entityManager -> {
 
             EmployeeDAO employeeDAO = new EmployeeDAO(entityManager);
             Employee employee = employeeDAO.getEmployeeByEmail(employeeDto.getEmail());
+            if (employee == null){
+                throw new IllegalArgumentException("Employee does not exist");
+            }
             if(employeeDto.getFirstName()!=null){
                 employee.setFirstName(employeeDto.getFirstName());
             }
